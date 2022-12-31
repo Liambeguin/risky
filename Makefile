@@ -1,5 +1,5 @@
 BUILDDIR = builddir
-PROG = include/programs/store_w.v
+PROG = test/asm/test000.bram.hex
 
 TOPLEVEL = soc_top
 

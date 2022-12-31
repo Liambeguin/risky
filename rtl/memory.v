@@ -14,16 +14,14 @@ module memory(
 
 	parameter XLEN = 32;
 
-	reg[XLEN-1:0] MEM[0:255]; // This has to be called MEM to be used with riscv_assembly.v
-	`include "include/riscv_assembly.v"
-
+	reg [XLEN-1:0] MEM[0:1535]; // 1536 4-bytes words = 6 Kb of RAM in total
 	initial begin
-		$display("\t==================================");
-		$display("\tLoading \"%s\"", `PROGRAM);
-		$display("\t==================================");
+		$display("==================================");
+		$display("Loading \"%s\"", `PROGRAM);
+		$readmemh(`PROGRAM, MEM);
+		$display("==================================");
 	end
 
-	`include `PROGRAM
 	`include "debug/memory.v"
 
 	wire [XLEN-1:0] word_addr = {2'b0, mem_addr[31:2]};
