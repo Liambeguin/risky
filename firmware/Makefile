@@ -4,7 +4,7 @@ AS = $(CROSS_COMPILE)as
 ASFLAGS = -march=rv32i -mabi=ilp32 -mno-relax
 
 LD = $(CROSS_COMPILE)ld
-LDFLAGS = -T bram.ld -m elf32lriscv -nostdlib -no-relax
+LDFLAGS = -T asm/bram.ld -m elf32lriscv -nostdlib -no-relax
 
 %.o: %.S
 	$(AS) $(ASFLAGS) -o $@ $^
@@ -19,12 +19,12 @@ RAM_SIZE = 6144
 	@./tool/firmware_words $< -ram $(RAM_SIZE) -max_addr 65535 -out $@
 
 clean:
-	@rm -f *.o *.hex *.elf
-	@rm -f test000.bram.elf
+	@rm -f /asm/*.o asm/*.hex asm/*.elf
+	@rm -f asm/test000.bram.elf
 	@rm -f tool/firmware_words
 
 
-test000.bram.elf: start.o wait.o test000.o
+asm/test000.bram.elf: asm/start.o asm/wait.o asm/test000.o
 	$(LD) $(LDFLAGS) -o $@ $^
 
-test000.bram.hex: tool/firmware_words test000.bram.elf
+asm/test000.bram.hex: tool/firmware_words asm/test000.bram.elf

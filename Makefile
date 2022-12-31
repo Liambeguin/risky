@@ -1,8 +1,7 @@
 BUILDDIR = builddir
-PROG = test/asm/test000.bram.hex
+PROG = firmware/asm/test000.bram.hex
 
 TOPLEVEL = soc_top
-
 
 SIM ?= icarus
 blinky-sim: blinky-sim-$(SIM)

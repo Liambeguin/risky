@@ -8,7 +8,7 @@ SECTIONS
 	everything :
 	{
 		. = ALIGN(4);
-		start.o (.text)
+		asm/start.o (.text)
 		*(.*)
 	} >BRAM
 }
