@@ -14,5 +14,8 @@ Setup
 
 .. code-block:: console
 
-   # install icarus
-   sudo dnf install verilator iverilog
+   $ # install icarus
+   $ sudo dnf install verilator iverilog
+
+   $ # install verilator
+   $ sudo dnf install verilator
