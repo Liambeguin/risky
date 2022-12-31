@@ -1,0 +1,18 @@
+Introduction
+============
+
+This is by no means meant to show other how to implement a riscv processor. It's
+my own journey into Verilog and the RISC-V spec.
+
+Almost all of the work is based off of the `from blinker to riscv`_.
+
+.. from blinker to riscv: https://github.com/BrunoLevy/learn-fpga/tree/master/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV
+
+
+Setup
+=====
+
+.. code-block:: console
+
+   # install icarus
+   sudo dnf install verilator iverilog
