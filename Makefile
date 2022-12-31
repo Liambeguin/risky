@@ -28,6 +28,7 @@ blinky-build-verilator: test/sim_main.cpp rtl/$(TOPLEVEL).v
 	@verilator \
 		-DBENCH \
 		-DBOARD_FREQ=12 \
+		-DPROGRAM=\"$(PROG)\" \
 		-Wno-fatal \
 		--top-module $(TOPLEVEL) \
 		--cc --exe --build --relative-includes \
