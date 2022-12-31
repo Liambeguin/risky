@@ -1,2 +1,7 @@
 builddir/
 obj_dir/
+
+*.o
+*.hex
+*.elf
+test/asm/tool/firmware_words
