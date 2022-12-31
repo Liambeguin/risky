@@ -1,10 +1,13 @@
 BUILDDIR = builddir
-PROG = firmware/asm/test000.bram.hex
+PROG ?= firmware/asm/test000.bram.hex
 
 TOPLEVEL = soc_top
 
 SIM ?= icarus
-blinky-sim: blinky-sim-$(SIM)
+blinky-sim: $(PROG) blinky-sim-$(SIM)
+
+firmware/%:
+	$(MAKE) -C firmware $(patsubst firmware/%,%,$@)
 
 .PHONY: blinky-sim
 blinky-build-icarus: test/bench_iverilog.v rtl/$(TOPLEVEL).v
