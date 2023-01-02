@@ -1,7 +1,11 @@
 builddir/
 obj_dir/
 
+test/results.xml
+test/__pycache__/
+test/sim_build/
+
 *.o
 *.hex
 *.elf
-test/asm/tool/firmware_words
+firmware/tool/firmware_words

@@ -19,3 +19,9 @@ Setup
 
    $ # install verilator
    $ sudo dnf install verilator
+
+   $ # install cocotb
+   $ sudo dnf install make python3 python3-pip
+   $ python -m virtualenv cocotb-venv
+   $ source ./cocotb-venv/bin/activate
+   $ pip install cocotb

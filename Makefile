@@ -39,3 +39,13 @@ blinky-build-verilator: test/sim_main.cpp rtl/$(TOPLEVEL).v
 
 blinky-sim-verilator: blinky-build-verilator
 	@./obj_dir/V$(TOPLEVEL)
+
+
+.PHONY: test
+test: $(P)
+	@SIM=$(SIM) \
+	    TOPLEVEL=$(TOPLEVEL) \
+	    $(if $(filter icarus,$(SIM)),COMPILE_ARGS='$(ICARUS_COMPILE_ARGS)') \
+	    $(if $(filter verilator,$(SIM)),COMPILE_ARGS='$(VERILATOR_COMPILER_ARGS)') \
+	    $(MAKE) -C test/ all
+
