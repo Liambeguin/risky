@@ -3,6 +3,8 @@ BUILDDIR = builddir
 TOPLEVEL ?= soc_top
 SIM ?= icarus
 
+RTL_FILES = $(wildcard rtl/*.v)
+
 P ?= firmware/asm/test000.bram.hex
 
 firmware/%:
@@ -44,7 +46,7 @@ blinky-sim-verilator: blinky-build-verilator
 
 
 .PHONY: test
-test: $(P)
+test: $(P) $(RTL_FILES)
 ifeq ($(SIM), verilator)
 	$(error Verilator unsupported with cocotb)
 else
