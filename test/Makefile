@@ -4,7 +4,7 @@
 # SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 
-VERILOG_SOURCES += $(wildcard ../rtl/*.v)
+VERILOG_SOURCES += ../rtl/soc_top.v
 
 # TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file
 # TOPLEVEL ?= top

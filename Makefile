@@ -1,7 +1,7 @@
 BUILDDIR = builddir
 
 TOPLEVEL ?= soc_top
-SIM ?= verilator
+SIM ?= icarus
 
 P ?= firmware/asm/test000.bram.hex
 
@@ -15,12 +15,14 @@ blinky-sim: $(P) blinky-sim-$(SIM)
 ICARUS_COMPILE_ARGS = \
 	-DBENCH \
 	-DPROGRAM=\"$(realpath $P)\" \
-	-grelative-include \
-	-o $(BUILDDIR)/blinky
+	-grelative-include
 
 blinky-build-icarus: test/bench_iverilog.v rtl/$(TOPLEVEL).v
 	@mkdir -p $(BUILDDIR)
-	@iverilog $(ICARUS_COMPILE_ARGS) $^
+	@iverilog \
+		$(ICARUS_COMPILE_ARGS) \
+		-o $(BUILDDIR)/blinky \
+		$^
 
 blinky-sim-icarus: blinky-build-icarus
 	@vvp -n $(BUILDDIR)/blinky
@@ -43,9 +45,12 @@ blinky-sim-verilator: blinky-build-verilator
 
 .PHONY: test
 test: $(P)
+ifeq ($(SIM), verilator)
+	$(error Verilator unsupported with cocotb)
+else
 	@SIM=$(SIM) \
 	    TOPLEVEL=$(TOPLEVEL) \
-	    $(if $(filter icarus,$(SIM)),COMPILE_ARGS='$(ICARUS_COMPILE_ARGS)') \
-	    $(if $(filter verilator,$(SIM)),COMPILE_ARGS='$(VERILATOR_COMPILER_ARGS)') \
+	    COMPILE_ARGS='$(ICARUS_COMPILE_ARGS)' \
 	    $(MAKE) -C test/ all
+endif
 
