@@ -1,38 +1,41 @@
 BUILDDIR = builddir
-PROG ?= firmware/asm/test000.bram.hex
 
-TOPLEVEL = soc_top
+TOPLEVEL ?= soc_top
+SIM ?= verilator
 
-SIM ?= icarus
-blinky-sim: $(PROG) blinky-sim-$(SIM)
+P ?= firmware/asm/test000.bram.hex
 
 firmware/%:
 	$(MAKE) -C firmware $(patsubst firmware/%,%,$@)
 
+
 .PHONY: blinky-sim
+blinky-sim: $(P) blinky-sim-$(SIM)
+
+ICARUS_COMPILE_ARGS = \
+	-DBENCH \
+	-DPROGRAM=\"$(realpath $P)\" \
+	-grelative-include \
+	-o $(BUILDDIR)/blinky
+
 blinky-build-icarus: test/bench_iverilog.v rtl/$(TOPLEVEL).v
 	@mkdir -p $(BUILDDIR)
-	@iverilog \
-		-I rtl \
-		-o $(BUILDDIR)/blinky \
-		-DBENCH \
-		-DBOARD_FREQ=10 \
-		-DPROGRAM=\"$(PROG)\" \
-		$^
+	@iverilog $(ICARUS_COMPILE_ARGS) $^
 
 blinky-sim-icarus: blinky-build-icarus
 	@vvp -n $(BUILDDIR)/blinky
 
 
+VERILATOR_COMPILER_ARGS = \
+	-DBENCH \
+	-DPROGRAM=\"$(realpath $P)\" \
+	--relative-includes \
+	-Wno-fatal \
+	--top-module $(TOPLEVEL) \
+	--cc --exe --build
+
 blinky-build-verilator: test/sim_main.cpp rtl/$(TOPLEVEL).v
-	@verilator \
-		-DBENCH \
-		-DBOARD_FREQ=12 \
-		-DPROGRAM=\"$(PROG)\" \
-		-Wno-fatal \
-		--top-module $(TOPLEVEL) \
-		--cc --exe --build --relative-includes \
-		$^
+	@verilator $(VERILATOR_COMPILER_ARGS) $^
 
 blinky-sim-verilator: blinky-build-verilator
 	@./obj_dir/V$(TOPLEVEL)
