@@ -33,7 +33,7 @@ always @(posedge clk) begin
 			ALU_OR:      $write("ORI");
 			ALU_AND:     $write("ANDI");
 			endcase
-			$display("(x%0d, %0d)", rs1id, I_imm);
+			$display("(x%0d, %0d)", rs1id, $signed(I_imm));
 		end
 		OPCODE_LUI: begin
 			$display("%d\tLUI:\t", pc);
@@ -45,7 +45,7 @@ always @(posedge clk) begin
 			$display("%d\tJAL:\tx%d <- (pc+4); pc <- pc + %0d", pc, rdid, J_imm);
 		end
 		OPCODE_JALR: begin
-			$display("%d\tJALR:\tx%0d <- (pc+4); pc <- pc + %0d", pc, rdid, I_imm);
+			$display("%d\tJALR:\tx%0d <- (pc+4); pc <- pc + %0d", pc, rdid, $signed(I_imm));
 		end
 		OPCODE_BRANCH:	begin
 			$write("%d\tBRANCH:\t", pc);
