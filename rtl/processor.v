@@ -44,6 +44,37 @@ module processor(
 
 	// register file
 	reg [XLEN-1:0] x[0:XLEN-1];
+	wire [XLEN-1:0] cpu_reg_ra  = x[1];
+	wire [XLEN-1:0] cpu_reg_sp  = x[2];
+	wire [XLEN-1:0] cpu_reg_gp  = x[3];
+	wire [XLEN-1:0] cpu_reg_tp  = x[4];
+	wire [XLEN-1:0] cpu_reg_t0  = x[5];
+	wire [XLEN-1:0] cpu_reg_t1  = x[6];
+	wire [XLEN-1:0] cpu_reg_t2  = x[7];
+	wire [XLEN-1:0] cpu_reg_s0  = x[8];
+	wire [XLEN-1:0] cpu_reg_s1  = x[9];
+	wire [XLEN-1:0] cpu_reg_a0  = x[10];
+	wire [XLEN-1:0] cpu_reg_a1  = x[11];
+	wire [XLEN-1:0] cpu_reg_a2  = x[12];
+	wire [XLEN-1:0] cpu_reg_a3  = x[13];
+	wire [XLEN-1:0] cpu_reg_a4  = x[14];
+	wire [XLEN-1:0] cpu_reg_a5  = x[15];
+	wire [XLEN-1:0] cpu_reg_a6  = x[16];
+	wire [XLEN-1:0] cpu_reg_a7  = x[17];
+	wire [XLEN-1:0] cpu_reg_s2  = x[18];
+	wire [XLEN-1:0] cpu_reg_s3  = x[19];
+	wire [XLEN-1:0] cpu_reg_s4  = x[20];
+	wire [XLEN-1:0] cpu_reg_s5  = x[21];
+	wire [XLEN-1:0] cpu_reg_s6  = x[22];
+	wire [XLEN-1:0] cpu_reg_s7  = x[23];
+	wire [XLEN-1:0] cpu_reg_s8  = x[24];
+	wire [XLEN-1:0] cpu_reg_s9  = x[25];
+	wire [XLEN-1:0] cpu_reg_s10 = x[26];
+	wire [XLEN-1:0] cpu_reg_s11 = x[27];
+	wire [XLEN-1:0] cpu_reg_t3  = x[28];
+	wire [XLEN-1:0] cpu_reg_t4  = x[29];
+	wire [XLEN-1:0] cpu_reg_t5  = x[30];
+	wire [XLEN-1:0] cpu_reg_t6  = x[31];
 
 	integer i;
 	initial begin
