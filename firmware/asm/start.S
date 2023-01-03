@@ -1,7 +1,9 @@
 .section .text
 .globl start
 
+.equ STACK_SIZE, 0x400
+
 start:
-	li sp,0x1800
+	li sp, STACK_SIZE
 	call main
 	ebreak
