@@ -59,7 +59,6 @@ module processor(
 	localparam STATE_LOAD		= 4;
 	localparam STATE_STORE		= 5;
 	localparam STATE_WAIT_DATA	= 6;
-	localparam STATE_DEBUG		= 7;
 	reg[2:0] state = STATE_FETCH_INSTR;
 
 	always @(posedge clk) begin
@@ -92,7 +91,7 @@ module processor(
 			state <=
 				opcode == OPCODE_LOAD ? STATE_LOAD :
 				opcode == OPCODE_STORE ? STATE_STORE :
-				STATE_DEBUG;
+				STATE_FETCH_INSTR;
 		end
 		STATE_LOAD: begin
 			state <= STATE_WAIT_DATA;
@@ -101,9 +100,6 @@ module processor(
 			state <= STATE_WAIT_DATA;
 		end
 		STATE_WAIT_DATA: begin
-			state <= STATE_DEBUG;
-		end
-		STATE_DEBUG: begin
 			state <= STATE_FETCH_INSTR;
 		end
 		endcase

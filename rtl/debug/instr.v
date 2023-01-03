@@ -92,18 +92,8 @@ always @(posedge clk) begin
 			$finish;
 		end
 		endcase
-	end else if (state == STATE_DEBUG) begin
-		if (opcode == OPCODE_OP ||
-		    opcode == OPCODE_OP_IMM ||
-		    opcode == OPCODE_LOAD || opcode == OPCODE_STORE
-		) begin
-			$display("\t\t\tx%0d=0x%x\t(%0d)", rdid, x[rdid], x[rdid]);
-		end
 	end
 `else
-	if (state == STATE_DEBUG) begin
-		$display("%b", x[10]);
-	end
 	if (opcode == OPCODE_SYSTEM) begin
 		$finish;
 	end
