@@ -36,14 +36,14 @@ module processor(
 	wire [4:0] rs2id  = instr[24:20];
 	wire [6:0] funct7 = instr[31:25];
 
-	wire signed [31:0] I_imm = {{21{instr[31]}}, instr[30:20]};
-	wire signed [31:0] S_imm = {{21{instr[31]}}, instr[30:25], instr[11:7]};
-	wire signed [31:0] B_imm = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
-	wire signed [31:0] U_imm = {instr[31], instr[30:12], 12'b0};
-	wire signed [31:0] J_imm = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
+	wire [31:0] I_imm = {{21{instr[31]}}, instr[30:20]};
+	wire [31:0] S_imm = {{21{instr[31]}}, instr[30:25], instr[11:7]};
+	wire [31:0] B_imm = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
+	wire [31:0] U_imm = {instr[31], instr[30:12], 12'b0};
+	wire [31:0] J_imm = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
 
 	// register file
-	reg signed [XLEN-1:0] x[0:XLEN-1];
+	reg [XLEN-1:0] x[0:XLEN-1];
 
 	integer i;
 	initial begin
@@ -136,7 +136,7 @@ module processor(
 	wire [XLEN-1:0] alu_in2 = (opcode == OPCODE_OP) ? rs2 : I_imm;
 	wire [4:0] shamt = (opcode == OPCODE_OP) ? rs2[4:0] : instr[24:20];
 
-	reg signed [XLEN-1:0] alu_out;
+	reg [XLEN-1:0] alu_out;
 
 	always @(*) begin
 		case (funct3)
