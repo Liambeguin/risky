@@ -54,11 +54,10 @@ module processor(
 	// Top-level state machine
 	localparam STATE_FETCH_INSTR	= 0;
 	localparam STATE_WAIT_INSTR	= 1;
-	localparam STATE_FETCH_REGS	= 2;
-	localparam STATE_EXECUTE	= 3;
-	localparam STATE_LOAD		= 4;
-	localparam STATE_STORE		= 5;
-	localparam STATE_WAIT_DATA	= 6;
+	localparam STATE_EXECUTE	= 2;
+	localparam STATE_LOAD		= 3;
+	localparam STATE_STORE		= 4;
+	localparam STATE_WAIT_DATA	= 5;
 	reg[2:0] state = STATE_FETCH_INSTR;
 
 	always @(posedge clk) begin
@@ -68,12 +67,8 @@ module processor(
 		end
 		STATE_WAIT_INSTR: begin
 			instr <= mem_rdata;
-
-			state <= STATE_FETCH_REGS;
-		end
-		STATE_FETCH_REGS: begin
-			rs1 <= x[rs1id];
-			rs2 <= x[rs2id];
+			rs1 <= x[mem_rdata[19:15]];
+			rs2 <= x[mem_rdata[24:20]];
 
 			state <= STATE_EXECUTE;
 		end
