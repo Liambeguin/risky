@@ -84,7 +84,10 @@ always @(posedge clk) begin
 		OPCODE_SYSTEM: begin
 			$display("SYSTEM:\t");
 			$display("register file:\t");
-			for (i = 0; i < XLEN; i++) $display("%d\t0x%x", i, x[i]);
+			$display("pc:\t%x", pc);
+			$display("ra:\t%x", x[1]);
+			$display("sp:\t%x", x[2]);
+	 		for (i = XLEN-1; i >= 0; i = i-2) $display("x%0d:\t%x\tx%0d:\t%x", i, x[i], i-1, x[i-1]);
 			$finish;
 		end
 		default: begin
