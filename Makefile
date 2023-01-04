@@ -12,19 +12,20 @@ firmware/%:
 
 
 .PHONY: blinky-sim
-blinky-sim: $(P) blinky-sim-$(SIM)
+blinky-sim: blinky-sim-$(SIM)
 
 ICARUS_COMPILE_ARGS = \
 	-DBENCH \
 	-DPROGRAM=\"$(realpath $P)\" \
 	-grelative-include
 
-blinky-build-icarus: test/bench_iverilog.v rtl/$(TOPLEVEL).v
+blinky-build-icarus: test/bench_iverilog.v $(RTL_FILES) $(P)
 	@mkdir -p $(BUILDDIR)
 	@iverilog \
 		$(ICARUS_COMPILE_ARGS) \
 		-o $(BUILDDIR)/blinky \
-		$^
+		test/bench_iverilog.v \
+		$(RTL_FILES)
 
 blinky-sim-icarus: blinky-build-icarus
 	@vvp -n $(BUILDDIR)/blinky
@@ -38,8 +39,11 @@ VERILATOR_COMPILER_ARGS = \
 	--top-module $(TOPLEVEL) \
 	--cc --exe --build
 
-blinky-build-verilator: test/sim_main.cpp rtl/$(TOPLEVEL).v
-	@verilator $(VERILATOR_COMPILER_ARGS) $^
+blinky-build-verilator: test/sim_main.cpp $(RTL_FILES) $(P)
+	@verilator \
+		$(VERILATOR_COMPILER_ARGS) \
+		test/sim_main.cpp \
+		$(RTL_FILES)
 
 blinky-sim-verilator: blinky-build-verilator
 	@./obj_dir/V$(TOPLEVEL)

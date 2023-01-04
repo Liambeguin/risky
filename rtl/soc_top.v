@@ -1,9 +1,6 @@
 // Inspired by: https://github.com/BrunoLevy/learn-fpga (from blinker to riscv)
 
 `default_nettype none
-`include "clkdiv.v"
-`include "memory.v"
-`include "processor.v"
 
 module soc_top (
 	input CLK);
