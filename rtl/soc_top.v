@@ -2,10 +2,11 @@
 
 `default_nettype none
 
-module soc_top (
+module soc_top #(
+	parameter XLEN = 32,
+	parameter RAM_SIZE = 'h600
+	)(
 	input CLK);
-
-	parameter XLEN = 32;
 
 	wire clk;
 	wire mem_rstrb;
@@ -15,7 +16,8 @@ module soc_top (
 	wire [3:0] mem_wmask;
 
 	memory #(
-		.XLEN(XLEN)
+		.XLEN(XLEN),
+		.depth(RAM_SIZE)
 	) RAM (
 		.clk(clk),
 		.mem_addr(mem_addr),

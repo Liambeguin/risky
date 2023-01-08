@@ -4,7 +4,11 @@
 	`define PROGRAM "include/programs/simple_addi.v"
 `endif
 
-module memory(
+module memory#(
+	parameter XLEN = 32,
+	parameter depth = 1536, // 1536 4-bytes words = 6 Kb of RAM in total
+	parameter memfile = ""
+	)(
 	input                 clk,
 	input      [XLEN-1:0] mem_addr,
 	input                 mem_rstrb,
@@ -12,9 +16,8 @@ module memory(
 	input      [XLEN-1:0] mem_wdata,
 	input      [3:0]      mem_wmask);
 
-	parameter XLEN = 32;
+	reg [XLEN-1:0] MEM[0:depth-1];
 
-	reg [XLEN-1:0] MEM[0:1535]; // 1536 4-bytes words = 6 Kb of RAM in total
 	initial begin
 		$display("==================================");
 		$display("Loading \"%s\"", `PROGRAM);

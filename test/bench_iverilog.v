@@ -1,11 +1,15 @@
 `timescale 1ns/1ns
 
-module bench();
+module bench#(
+	parameter RAM_SIZE = 'h600
+	)();
+
 	reg CLK;
 
 	soc_top #(
-		.XLEN(32)
-	) uut (
+		.XLEN(32),
+		.RAM_SIZE(RAM_SIZE)
+	) dut (
 		.CLK(CLK)
 	);
 
