@@ -39,7 +39,7 @@ VERILATOR_COMPILER_ARGS = \
 	--top-module $(TOPLEVEL) \
 	--cc --exe --build
 
-blinky-build-verilator: test/sim_main.cpp $(RTL_FILES) $(P)
+blinky-build-verilator: test/verilator/tb.cpp $(RTL_FILES) $(P)
 	@verilator \
 		$(VERILATOR_COMPILER_ARGS) \
 		test/sim_main.cpp \
