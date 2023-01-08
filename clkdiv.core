@@ -1,0 +1,17 @@
+CAPI=2:
+name: liambeguin:blinky:clkdiv:0.1.0
+description: |
+  a dummy clock divider to slow down simulation.
+
+filesets:
+  rtl:
+    files:
+      - rtl/clkdiv.v
+    file_type: verilogSource
+
+targets:
+  default: &default
+    filesets:
+      - rtl
+
+# vim: ft=yaml :

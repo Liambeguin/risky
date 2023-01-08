@@ -1,0 +1,67 @@
+CAPI=2:
+name: liambeguin:blinky:soc:0.1.0
+description: |
+  A tiny RV32I core written to get more familiar with Verilog and RISC-V.
+
+filesets:
+  rtl:
+    files:
+      - rtl/soc_top.v
+    file_type: verilogSource
+    depend:
+      - liambeguin:blinky:clkdiv
+      - liambeguin:blinky:memory
+      - liambeguin:blinky:processor
+
+  verilog_tb_files:
+    files:
+      - test/bench_iverilog.v
+    file_type: verilogSource
+    depend:
+      - elf-loader
+
+  verilator_tb_files:
+    files:
+      - test/verilator/tb.cpp
+    file_type: cppSource
+    depend:
+      - verilator_tb_utils
+
+
+targets:
+  default: &default
+    filesets:
+      - rtl
+    toplevel: soc_top
+    parameters:
+      - XLEN
+
+  sim:
+    <<: *default
+    description: Simulate the processor
+    default_tool: icarus
+    filesets_append:
+      - "!tool_verilator ? (verilog_tb_files)"
+      - "tool_verilator ? (verilator_tb_files)"
+
+    toplevel:
+      - "!tool_verilator ? (bench)"
+      - "tool_verilator ? (soc_top)"
+
+    default_tool: icarus
+    tools:
+      icarus:
+        iverilog_options: [-DBENCH]
+      verilator:
+        verilator_options: [-Wno-fatal]
+
+    parameters:
+      - XLEN=32
+
+parameters:
+  XLEN:
+    datatype: int
+    description: length of the registers
+    paramtype: vlogparam
+
+# vim: ft=yaml :

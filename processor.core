@@ -1,0 +1,34 @@
+CAPI=2:
+name: liambeguin:blinky:processor:0.1.0
+description: |
+  A tiny RV32I core written to get more familiar with Verilog and RISC-V.
+
+
+filesets:
+  rtl:
+    files:
+      - rtl/processor.v
+    file_type: verilogSource
+
+
+targets:
+  default: &default
+    filesets:
+      - rtl
+    parameters:
+      - XLEN=32
+      - clear-ram
+
+parameters:
+  XLEN:
+    datatype: int
+    description: length of the registers
+    paramtype: vlogparam
+
+  clear-ram:
+    datatype: bool
+    description: Preset RAM to known value (0)
+    paramtype: plusarg
+    scope: private
+
+# vim: ft=yaml :

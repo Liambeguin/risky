@@ -1,9 +1,5 @@
 `default_nettype none
 
-`ifndef PROGRAM
-	`define PROGRAM "include/programs/simple_addi.v"
-`endif
-
 module memory#(
 	parameter XLEN = 32,
 	parameter depth = 1536, // 1536 4-bytes words = 6 Kb of RAM in total
@@ -18,14 +14,15 @@ module memory#(
 
 	reg [XLEN-1:0] MEM[0:depth-1];
 
-	initial begin
-		$display("==================================");
-		$display("Loading \"%s\"", `PROGRAM);
-		$readmemh(`PROGRAM, MEM);
-		$display("==================================");
-	end
-
-	`include "debug/memory.v"
+	generate
+	initial
+		if (memfile != "") begin
+			$display("==================================");
+			$display("Preloading \"%s\"", memfile);
+			$readmemh(memfile, MEM);
+			$display("==================================");
+		end
+	endgenerate
 
 	wire [XLEN-1:0] word_addr = {2'b0, mem_addr[31:2]};
 

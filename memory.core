@@ -1,0 +1,17 @@
+CAPI=2:
+name: liambeguin:blinky:memory:0.1.0
+description: |
+  memory interface used by our blinky processor
+
+filesets:
+  rtl:
+    files:
+      - rtl/memory.v
+    file_type: verilogSource
+
+targets:
+  default: &default
+    filesets:
+      - rtl
+
+# vim: ft=yaml :

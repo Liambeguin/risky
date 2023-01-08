@@ -104,6 +104,7 @@ module processor(
 			state <= STATE_EXECUTE;
 		end
 		STATE_EXECUTE: begin
+			$display("PC %x", pc);
 			case (opcode)
 			OPCODE_JAL:    pc <= pc + J_imm;
 			OPCODE_JALR:   pc <= rs1 + I_imm;
@@ -239,7 +240,7 @@ module processor(
 		end
 	end
 
-	`include "debug/instr.v"
+	// `include "rtl/debug/instr.v"
 
 	assign mem_addr = (state == STATE_FETCH_INSTR || state == STATE_WAIT_INSTR) ? pc : loadstore_addr;
 	assign mem_rstrb = (state == STATE_FETCH_INSTR || state == STATE_LOAD);

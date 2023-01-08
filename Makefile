@@ -1,62 +1,32 @@
 BUILDDIR = builddir
 
 TOPLEVEL ?= soc_top
-SIM ?= icarus
+TOOL ?= icarus
 
 RTL_FILES = $(wildcard rtl/*.v)
 
-P ?= firmware/asm/test000.bram.hex
+FW ?= firmware/asm/test000.bram.elf
+P ?= $(patsubst %.elf,%.hex,$(FW))
 
 firmware/%:
 	$(MAKE) -C firmware $(patsubst firmware/%,%,$@)
 
 
-.PHONY: blinky-sim
-blinky-sim: blinky-sim-$(SIM)
+setup:
+	@fusesoc init -y
+	@fusesoc library add --sync-type local blinky .
+	@fusesoc library add elf-loader https://github.com/fusesoc/elf-loader.git
 
-ICARUS_COMPILE_ARGS = \
-	-DBENCH \
-	-DPROGRAM=\"$(realpath $P)\" \
-	-grelative-include
+simulate: $(FW)
+	@fusesoc run \
+		--target sim \
+		--tool $(TOOL) \
+		liambeguin:blinky:soc:0.1.0 \
+		--elf_load $(FW)
 
-blinky-build-icarus: test/bench_iverilog.v $(RTL_FILES) $(P)
-	@mkdir -p $(BUILDDIR)
-	@iverilog \
-		$(ICARUS_COMPILE_ARGS) \
-		-o $(BUILDDIR)/blinky \
-		test/bench_iverilog.v \
-		$(RTL_FILES)
-
-blinky-sim-icarus: blinky-build-icarus
-	@vvp -n $(BUILDDIR)/blinky
-
-
-VERILATOR_COMPILER_ARGS = \
-	-DBENCH \
-	-DPROGRAM=\"$(realpath $P)\" \
-	--relative-includes \
-	-Wno-fatal \
-	--top-module $(TOPLEVEL) \
-	--cc --exe --build
-
-blinky-build-verilator: test/verilator/tb.cpp $(RTL_FILES) $(P)
-	@verilator \
-		$(VERILATOR_COMPILER_ARGS) \
-		test/sim_main.cpp \
-		$(RTL_FILES)
-
-blinky-sim-verilator: blinky-build-verilator
-	@./obj_dir/V$(TOPLEVEL)
-
-
-.PHONY: test
-test: $(P) $(RTL_FILES)
-ifeq ($(SIM), verilator)
-	$(error Verilator unsupported with cocotb)
-else
-	@SIM=$(SIM) \
-	    TOPLEVEL=$(TOPLEVEL) \
-	    COMPILE_ARGS='$(ICARUS_COMPILE_ARGS)' \
-	    $(MAKE) -C test/ all
-endif
-
+clean:
+	@$(MAKE) -C firmware clean
+	@$(MAKE) -C test clean
+	@rm -rf build/
+	@rm -rf obj_dir/ builddir/
+	@rm -rf test/__pycache__/ test/sim_build/

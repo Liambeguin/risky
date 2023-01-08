@@ -1,6 +1,10 @@
 builddir/
 obj_dir/
 
+build/
+fusesoc.conf
+fusesoc_libraries/
+
 test/results.xml
 test/__pycache__/
 test/sim_build/
