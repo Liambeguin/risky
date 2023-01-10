@@ -56,6 +56,10 @@ module soc_top #(
 			'h4: begin
 				LEDS <= mem_wdata;
 			end
+			'h8: begin
+				$write("%c", mem_wdata[7:0]);
+				$fflush(32'h8000_0001); // the magic constant argument to $fflush() corresponds to stdout
+			end
 			endcase
 		end
 	end

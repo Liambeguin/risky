@@ -29,6 +29,9 @@ firmware/asm/test000.bram.elf: firmware/asm/start.o firmware/asm/wait.o firmware
 firmware/asm/test_iomem_leds.bram.elf: firmware/asm/start.o firmware/asm/wait.o firmware/asm/test_iomem_leds.o
 	$(LD) $(LDFLAGS) -o $@ $^
 
+firmware/asm/test_iomem_char.bram.elf: firmware/asm/start.o firmware/asm/wait.o firmware/asm/test_iomem_char.o
+	$(LD) $(LDFLAGS) -o $@ $^
+
 
 simulate: $(FW)
 	@fusesoc run \
