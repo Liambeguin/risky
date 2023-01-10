@@ -8,7 +8,7 @@ SECTIONS
 	everything :
 	{
 		. = ALIGN(4);
-		asm/start.o (.text)
+		firmware/asm/start.o (.text)
 		*(.*)
 	} >BRAM
 }
