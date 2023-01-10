@@ -240,7 +240,24 @@ module processor(
 		end
 	end
 
-	// `include "rtl/debug/instr.v"
+
+`ifdef BENCH
+	always @(posedge clk) begin
+		if (state == STATE_EXECUTE) begin
+			case (opcode)
+			OPCODE_SYSTEM: begin
+				$display("");
+				$display("register file:\t");
+				$display("pc:\t%x", pc);
+				$display("ra:\t%x", x[1]);
+				$display("sp:\t%x", x[2]);
+				for (i = XLEN-1; i >= 0; i = i-2) $display("x%0d:\t%x\tx%0d:\t%x", i, x[i], i-1, x[i-1]);
+				$finish;
+			end
+			endcase
+		end
+	end
+`endif
 
 	assign mem_addr = (state == STATE_FETCH_INSTR || state == STATE_WAIT_INSTR) ? pc : loadstore_addr;
 	assign mem_rstrb = (state == STATE_FETCH_INSTR || state == STATE_LOAD);
