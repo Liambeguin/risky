@@ -21,6 +21,11 @@ module bench#(
 	initial begin
 		CLK = 0;
 
+		if ($test$plusargs("vcd")) begin
+			$dumpfile("dump_soc_top.vcd");
+			$dumpvars;
+		end
+
 		if ($test$plusargs("clear-ram")) begin
 			$display("Clearing RAM...");
 			for (i=0; i < RAM_SIZE; i++)

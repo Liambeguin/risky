@@ -57,6 +57,7 @@ targets:
 
     parameters:
       - XLEN=32
+      - vcd
 
 parameters:
   XLEN:
@@ -64,4 +65,8 @@ parameters:
     description: length of the registers
     paramtype: vlogparam
 
+  vcd:
+    datatype: bool
+    description: Enable VCD logging
+    paramtype: plusarg
 # vim: ft=yaml :

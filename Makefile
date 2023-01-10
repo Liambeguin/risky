@@ -32,7 +32,11 @@ simulate: $(FW)
 		--target sim \
 		--tool $(TOOL) \
 		liambeguin:blinky:soc:0.1.0 \
+		--vcd \
 		--elf_load $(FW)
+
+wave:
+	@gtkwave test/gtkwave/soc_top_savefile.gtkw
 
 disassemble: $(FW)
 	riscv64-linux-gnu-objdump -d $(FW)
