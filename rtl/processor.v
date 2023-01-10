@@ -186,7 +186,7 @@ module processor(
 	end
 
 	// Load-Store
-	wire [XLEN-1:0] loadstore_addr = rs1 + (opcode == OPCODE_LOAD) ? I_imm : S_imm;
+	wire [XLEN-1:0] loadstore_addr = rs1 + ((opcode == OPCODE_LOAD) ? I_imm : S_imm);
 	wire byte_access = funct3[1:0] == 2'b00;
 	wire half_access = funct3[1:0] == 2'b01;
 
