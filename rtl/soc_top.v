@@ -6,7 +6,8 @@ module soc_top #(
 	parameter XLEN = 32,
 	parameter RAM_SIZE = 'h600
 	)(
-	input CLK);
+	input CLK,
+	output reg [3:0] LEDS);
 
 	wire clk;
 	wire mem_rstrb;
@@ -15,6 +16,10 @@ module soc_top #(
 	wire [XLEN-1:0] mem_wdata;
 	wire [3:0] mem_wmask;
 
+	wire is_iomem = mem_addr[22]; // anything under 0x0040_0000 is iomem
+	wire is_ram = !is_iomem;
+	wire mem_wstrb = |mem_wmask;
+
 	memory #(
 		.XLEN(XLEN),
 		.depth(RAM_SIZE)
@@ -22,9 +27,9 @@ module soc_top #(
 		.clk(clk),
 		.mem_addr(mem_addr),
 		.mem_rdata(mem_rdata),
-		.mem_rstrb(mem_rstrb),
+		.mem_rstrb(mem_rstrb), // rstrb is Read Strobe
 		.mem_wdata(mem_wdata),
-		.mem_wmask(mem_wmask)
+		.mem_wmask({4{is_ram}} & mem_wmask)
 	);
 
 	processor #(
@@ -33,7 +38,7 @@ module soc_top #(
 		.clk(clk),
 		.mem_addr(mem_addr),
 		.mem_rdata(mem_rdata),
-		.mem_rstrb(mem_rstrb),
+		.mem_rstrb(mem_rstrb), // rstrb is Read Strobe
 		.mem_wdata(mem_wdata),
 		.mem_wmask(mem_wmask)
 	);
@@ -44,4 +49,14 @@ module soc_top #(
 		.CLK(CLK),
 		.clk(clk)
 	);
+
+	always @(posedge clk) begin
+		if (is_iomem & mem_wstrb) begin
+			case (mem_addr[21:0])
+			'h4: begin
+				LEDS <= mem_wdata;
+			end
+			endcase
+		end
+	end
 endmodule
