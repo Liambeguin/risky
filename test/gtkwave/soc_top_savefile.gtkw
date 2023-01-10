@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.113 (w)1999-2022 BSI
-[*] Tue Jan 10 04:06:33 2023
+[*] Tue Jan 10 04:27:01 2023
 [*]
 [dumpfile] "/home/lvb/wip/risc-v/riscv-blinky/build/liambeguin_blinky_soc_0.1.0/sim-icarus/dump_soc_top.vcd"
-[dumpfile_mtime] "Tue Jan 10 03:56:31 2023"
-[dumpfile_size] 4317
+[dumpfile_mtime] "Tue Jan 10 04:23:45 2023"
+[dumpfile_size] 2842
 [savefile] "/home/lvb/wip/risc-v/riscv-blinky/test/gtkwave/soc_top_savefile.gtkw"
-[timestart] 560
+[timestart] 0
 [size] 2560 1361
-[pos] -27 -24
-*-3.000000 99 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] -1 -1
+*-4.200000 115 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] bench.
 [treeopen] bench.dut.
 [sst_width] 273
@@ -18,7 +18,11 @@
 [sst_vpaned_height] 421
 @28
 bench.CLK
-@2025
+@800200
+-Operation
+@22
+bench.dut.blinky.pc[31:0]
+@2024
 ^1 /home/lvb/wip/risc-v/riscv-blinky/test/gtkwave/state_to_name.gtkw
 bench.dut.blinky.state[2:0]
 @2028
@@ -26,7 +30,9 @@ bench.dut.blinky.state[2:0]
 bench.dut.blinky.opcode[6:0]
 ^3 /home/lvb/wip/risc-v/riscv-blinky/test/gtkwave/funct3_to_name.gtkw
 bench.dut.blinky.funct3[2:0]
-@c00200
+@1000200
+-Operation
+@800200
 -RAM
 @22
 bench.dut.mem_addr[31:0]
@@ -38,7 +44,7 @@ bench.dut.mem_wdata[31:0]
 bench.dut.mem_wmask[3:0]
 @28
 bench.dut.mem_wstrb
-@1401200
+@1000200
 -RAM
 [pattern_trace] 1
 [pattern_trace] 0
