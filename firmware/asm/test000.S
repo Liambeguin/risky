@@ -2,9 +2,18 @@
 .globl main
 
 main:
-	li t1, 20
+	# Function Prologue
+	addi sp, sp, -4
+	sw ra, 0(sp)
+
+	li t1, 0
+	li t2, 10
 .L0:
-	addi t1, t1, -1
+	addi t1, t1, 1
 	call wait
-	bnez t1, .L0
+	bne t1, t2, .L0
+
+	# Function Epilogue
+	lw ra, 0(sp)
+	addi sp, sp, 4
 	ret

@@ -5,7 +5,7 @@ wait:
 	li t0, 1
 	slli t0, t0, 3
 
-.L0:
+.Lwait0:
 	addi t0, t0, -1
-	bnez t0, .L0
-	ebreak
+	bnez t0, .Lwait0
+	ret
